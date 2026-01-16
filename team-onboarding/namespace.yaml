@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-alpha  # Replace with team name
+  labels:
+    team: alpha
+    environment: dev
+    managed-by: platform-team
+  annotations:
+    team-contact: "alpha-team@company.com"
+    cost-center: "engineering-alpha"
