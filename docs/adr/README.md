@@ -5,4 +5,7 @@ Decisions for the platform, roughly in order of when they came up.
 | ADR | Decision | Status |
 |-----|----------|--------|
 | [001](001-aks.md) | Azure Kubernetes Service | Accepted |
+| [002](002-namespace-per-team.md) | Namespace-per-Team Isolation | Accepted |
+| [003](003-calico.md) | Calico for Network Policies | Accepted |
+| [005](005-default-deny.md) | Default-Deny Network Policies | Accepted |
 | [007](007-terraform.md) | Terraform for Infrastructure | Accepted |
