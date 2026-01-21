@@ -15,8 +15,9 @@ variable "location" {
 }
 
 variable "kubernetes_version" {
-  type    = string
-  default = "1.29"
+  description = "Kubernetes version for the cluster"
+  type        = string
+  default     = "1.29"
 }
 
 variable "vnet_address_space" {

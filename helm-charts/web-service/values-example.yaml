@@ -1,0 +1,67 @@
+# Example: copy and customize for your app
+
+image:
+  repository: myregistry.azurecr.io/myapp
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+  hosts:
+    - host: myapp.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: myapp-tls
+      hosts:
+        - myapp.example.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+healthCheck:
+  enabled: true
+  path: /healthz
+  port: 8080
+
+readinessProbe:
+  enabled: true
+  path: /ready
+  port: 8080
+
+env:
+  - name: LOG_LEVEL
+    value: "info"
+  - name: PORT
+    value: "8080"
+
+envFrom:
+  - secretRef:
+      name: myapp-secrets
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
