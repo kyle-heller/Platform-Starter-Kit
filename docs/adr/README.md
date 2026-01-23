@@ -9,4 +9,6 @@ Decisions for the platform, roughly in order of when they came up.
 | [003](003-calico.md) | Calico for Network Policies | Accepted |
 | [004](004-helm.md) | Helm for Application Deployment | Accepted |
 | [005](005-default-deny.md) | Default-Deny Network Policies | Accepted |
+| [006](006-cert-manager.md) | cert-manager for TLS | Accepted |
 | [007](007-terraform.md) | Terraform for Infrastructure | Accepted |
+| [008](008-shared-ingress.md) | Shared Ingress Controller | Accepted |
