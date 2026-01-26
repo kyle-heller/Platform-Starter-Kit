@@ -34,7 +34,7 @@ if kubectl get namespace "$NAMESPACE" &>/dev/null; then
 fi
 
 TEMP_DIR=$(mktemp -d)
-trap "rm -rf \"$TEMP_DIR\"" EXIT
+trap "rm -rf $TEMP_DIR" EXIT
 
 # Process templates — replace placeholder team/env values
 for template in "$TEMPLATE_DIR"/*.yaml; do
