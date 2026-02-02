@@ -1,16 +1,35 @@
-# Production overrides - tighter resource limits, more replicas
 replicaCount: 3
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: "1"
+    memory: 1Gi
   requests:
-    cpu: 200m
+    cpu: 250m
     memory: 256Mi
 
 autoscaling:
   enabled: true
   minReplicas: 3
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: app.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: app-tls
+      hosts:
+        - app.example.com
