@@ -1,3 +1,4 @@
+# Dev environment - minimal resources for cost savings
 replicaCount: 1
 
 resources:
@@ -5,14 +6,8 @@ resources:
     cpu: 250m
     memory: 256Mi
   requests:
-    cpu: 50m
-    memory: 64Mi
+    cpu: 100m
+    memory: 128Mi
 
 autoscaling:
-  enabled: false
-
-podDisruptionBudget:
-  enabled: false
-
-ingress:
   enabled: false
