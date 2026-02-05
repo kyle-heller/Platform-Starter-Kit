@@ -44,6 +44,11 @@ resource "azurerm_kubernetes_cluster" "this" {
     type = "SystemAssigned"
   }
 
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = true
+    admin_group_object_ids = var.rbac_aad_admin_group_ids
+  }
+
   # NOTE: azure CNI + calico for full network policy support
   network_profile {
     network_plugin    = "azure"

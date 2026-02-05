@@ -27,6 +27,9 @@ module "aks" {
     max_count           = 10
   }
 
+  # TODO: replace with actual AAD group object ID
+  rbac_aad_admin_group_ids = ["00000000-0000-0000-0000-000000000000"]
+
   tags = {
     Environment = "prod"
     Project     = "platform-starter-kit"

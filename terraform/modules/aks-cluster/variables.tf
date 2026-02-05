@@ -74,6 +74,12 @@ variable "workload_node_pool" {
   default = null
 }
 
+variable "rbac_aad_admin_group_ids" {
+  description = "Azure AD group object IDs that will have admin access to the cluster"
+  type        = list(string)
+  default     = []
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)

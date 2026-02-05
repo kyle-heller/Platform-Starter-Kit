@@ -21,6 +21,8 @@ module "aks" {
 
   workload_node_pool = null # not worth the cost in dev
 
+  rbac_aad_admin_group_ids = [] # dev doesn't need AAD groups
+
   tags = {
     Environment = "dev"
     Project     = "platform-starter-kit"
