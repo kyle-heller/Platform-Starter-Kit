@@ -1,0 +1,26 @@
+{{- if .Values.gateway.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "web-service.fullname" . }}
+  labels:
+    {{- include "web-service.labels" . | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ .Values.gateway.parentName }}
+      namespace: {{ .Values.gateway.parentNamespace }}
+  {{- if .Values.gateway.hostnames }}
+  hostnames:
+    {{- range .Values.gateway.hostnames }}
+    - {{ . | quote }}
+    {{- end }}
+  {{- end }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .Values.gateway.path | default "/" }}
+      backendRefs:
+        - name: {{ include "web-service.fullname" . }}
+          port: {{ .Values.service.port }}
+{{- end }}
