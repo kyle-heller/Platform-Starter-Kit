@@ -1,0 +1,23 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+  name: allowed-image-repos
+spec:
+  enforcementAction: dryrun
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
+      - gatekeeper-system
+      - cert-manager
+      - ingress-nginx
+      - argocd
+  parameters:
+    repos:
+      - "docker.io/library/"
+      - "mcr.microsoft.com/"
+      - "ghcr.io/"
+      - "registry.k8s.io/"
+      # TODO: add private ACR once provisioned

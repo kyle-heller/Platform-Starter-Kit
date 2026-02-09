@@ -6,6 +6,9 @@ metadata:
     team: alpha
     environment: dev
     managed-by: platform-team
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
   annotations:
     team-contact: "alpha-team@company.com"
     cost-center: "engineering-alpha"
