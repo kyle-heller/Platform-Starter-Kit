@@ -1,4 +1,4 @@
-.PHONY: help init plan apply destroy lint validate clean
+.PHONY: help init plan apply destroy lint validate clean gateway-install gatekeeper-install
 
 # Default environment
 ENV ?= dev
@@ -48,6 +48,26 @@ endif
 # Kubernetes commands
 get-kubeconfig: ## Get kubeconfig for the cluster
 	az aks get-credentials --resource-group platform-$(ENV)-rg --name platform-$(ENV)
+
+# Infrastructure components
+gateway-install: ## Install Gateway API CRDs and NGINX Gateway Fabric
+	kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.0/standard-install.yaml
+	helm repo add nginx-gateway https://nginx.org/charts
+	helm install nginx-gateway nginx-gateway/nginx-gateway-fabric \
+		--namespace gateway-system --create-namespace \
+		--set service.type=LoadBalancer
+	kubectl apply -f infrastructure/gateway-api/
+
+gatekeeper-install: ## Install OPA Gatekeeper and apply constraints
+	helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
+	helm install gatekeeper gatekeeper/gatekeeper \
+		--namespace gatekeeper-system --create-namespace \
+		--set replicas=2
+	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/general/requiredlabels/template.yaml
+	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/pod-security-policy/privileged-containers/template.yaml
+	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/general/containerresourcelimits/template.yaml
+	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/general/allowedrepos/template.yaml
+	kubectl apply -f infrastructure/gatekeeper/constraints/
 
 # Cleanup
 clean: ## Clean up generated files

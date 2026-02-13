@@ -2,10 +2,10 @@
 
 Kubernetes platform setup for onboarding development teams. Handles:
 
-1. **Infrastructure** - Terraform modules for AKS
-2. **Team onboarding** - Namespace isolation with RBAC, quotas, network policies
+1. **Infrastructure** - Terraform modules for AKS with Azure AD RBAC
+2. **Team onboarding** - Namespace isolation with RBAC, quotas, network policies, PSS
 3. **Application deployment** - Helm chart with sane defaults
-4. **Infra components** - cert-manager and ingress-nginx
+4. **Security** - Gatekeeper policies, Gateway API, cert-manager
 
 ## Quick Start
 
@@ -62,21 +62,24 @@ kubectl apply -k team-onboarding/
 ```bash
 helm install my-app helm-charts/web-service \
   -n team-alpha \
-  --set image.repository=nginx \
-  --set image.tag=latest
+  -f helm-charts/web-service/values-prod.yaml \
+  --set image.repository=myregistry.azurecr.io/myapp
 ```
 
 ## Repo Structure
 
 ```
 terraform/
-  modules/aks-cluster/         # AKS module
-  environments/{dev,prod}/     # Per-environment configs
-team-onboarding/               # Namespace templates (RBAC, quotas, netpol)
-helm-charts/web-service/       # Standard web service Helm chart
+  modules/aks-cluster/         # AKS module with Azure AD RBAC
+  environments/{dev,prod}/     # Per-environment configs + remote state
+team-onboarding/               # Namespace templates (RBAC, quotas, netpol, PSS labels)
+helm-charts/web-service/       # Helm chart with dev/prod value overrides
 infrastructure/
   cert-manager/                # ClusterIssuers for Let's Encrypt
   ingress-nginx/               # Shared ingress controller
+  gateway-api/                 # GatewayClass + Gateway (HTTPRoute in Helm chart)
+  pod-security/                # PSS admission config (restricted profile)
+  gatekeeper/                  # OPA policy constraints
 scripts/
   onboard-team.sh              # Automates namespace + RBAC + quota setup
 docs/
@@ -92,6 +95,8 @@ make plan                      # terraform plan
 make apply                     # terraform apply
 make lint                      # terraform fmt + helm lint + kubectl dry-run
 make onboard-team TEAM=alpha   # run onboarding script
+make gateway-install           # install Gateway API + NGINX Gateway Fabric
+make gatekeeper-install        # install Gatekeeper + apply constraints
 ```
 
 Dev cluster runs about ~$80/month (2x B2s nodes + LB). Run `terraform destroy` when not using it.
