@@ -36,3 +36,19 @@ module "aks" {
     ManagedBy   = "terraform"
   }
 }
+
+module "acr" {
+  source = "../../modules/acr"
+
+  registry_name       = "platformprodacr"
+  resource_group_name = module.aks.resource_group_name
+  location            = var.location
+  sku                 = "Standard"
+  kubelet_identity_id = module.aks.kubelet_identity
+
+  tags = {
+    Environment = "prod"
+    Project     = "platform-starter-kit"
+    ManagedBy   = "terraform"
+  }
+}

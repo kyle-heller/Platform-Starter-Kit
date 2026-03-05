@@ -18,3 +18,8 @@ output "configure_kubectl" {
   description = "Command to configure kubectl"
   value       = "az aks get-credentials --resource-group ${module.aks.resource_group_name} --name ${module.aks.cluster_name}"
 }
+
+output "acr_login_server" {
+  description = "ACR login server URL"
+  value       = module.acr.login_server
+}
