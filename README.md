@@ -71,6 +71,7 @@ helm install my-app helm-charts/web-service \
 ```
 terraform/
   modules/aks-cluster/         # AKS module with Azure AD RBAC
+  modules/acr/                 # Azure Container Registry module
   environments/{dev,prod}/     # Per-environment configs + remote state
 team-onboarding/               # Namespace templates (RBAC, quotas, netpol, PSS labels)
 helm-charts/web-service/       # Helm chart with dev/prod value overrides
@@ -80,6 +81,7 @@ infrastructure/
   gateway-api/                 # GatewayClass + Gateway (HTTPRoute in Helm chart)
   pod-security/                # PSS admission config (restricted profile)
   gatekeeper/                  # OPA policy constraints
+  argocd/                      # ArgoCD install + Application manifests
 scripts/
   onboard-team.sh              # Automates namespace + RBAC + quota setup
 docs/
@@ -96,6 +98,7 @@ make apply                     # terraform apply
 make lint                      # terraform fmt + helm lint + kubectl dry-run
 make onboard-team TEAM=alpha   # run onboarding script
 make gateway-install           # install Gateway API + NGINX Gateway Fabric
+make argocd-install            # install ArgoCD + apply Applications
 make gatekeeper-install        # install Gatekeeper + apply constraints
 ```
 
