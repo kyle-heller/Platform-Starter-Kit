@@ -1,4 +1,4 @@
-.PHONY: help init plan apply destroy lint validate clean gateway-install gatekeeper-install
+.PHONY: help init plan apply destroy lint validate clean gateway-install gatekeeper-install argocd-install
 
 # Default environment
 ENV ?= dev
@@ -57,6 +57,15 @@ gateway-install: ## Install Gateway API CRDs and NGINX Gateway Fabric
 		--namespace gateway-system --create-namespace \
 		--set service.type=LoadBalancer
 	kubectl apply -f infrastructure/gateway-api/
+
+argocd-install: ## Install ArgoCD and apply Application manifests
+	kubectl apply -f infrastructure/argocd/namespace.yaml
+	helm repo add argo https://argoproj.github.io/argo-helm
+	helm install argocd argo/argo-cd \
+		--namespace argocd \
+		--set server.service.type=LoadBalancer
+	kubectl rollout status deployment/argocd-server -n argocd
+	kubectl apply -f infrastructure/argocd/applications/
 
 gatekeeper-install: ## Install OPA Gatekeeper and apply constraints
 	helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
