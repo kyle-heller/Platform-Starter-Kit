@@ -14,3 +14,10 @@ Decisions for the platform, roughly in order of when they came up.
 | [008](008-shared-ingress.md) | Shared Ingress Controller | Accepted |
 | [009](009-gateway-api.md) | Gateway API for Traffic Routing | Accepted |
 | [010](010-gatekeeper.md) | OPA Gatekeeper for Policy Enforcement | Accepted |
+| [011](011-gitops-argocd.md) | GitOps with ArgoCD | Accepted |
+
+## TODO
+
+- **Observability**: Prometheus/Grafana vs Azure Monitor, need to evaluate cost
+- **Secrets**: Azure Key Vault integration via CSI driver or external-secrets operator
+- **Image Updater**: ArgoCD Image Updater or CI-driven manifest updates for new tags
