@@ -1,0 +1,20 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequireSeccomp
+metadata:
+  name: require-seccomp-profile
+spec:
+  enforcementAction: dryrun
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
+      - gatekeeper-system
+      - cert-manager
+      - ingress-nginx
+      - argocd
+  parameters:
+    allowedProfiles:
+      - "RuntimeDefault"
+      - "Localhost"
