@@ -29,7 +29,7 @@ variable "vnet_address_space" {
 variable "nodes_subnet_prefix" {
   description = "Address prefix for the nodes subnet"
   type        = string
-  default     = "10.0.1.0/24"
+  default     = "10.0.0.0/22"
 }
 
 variable "service_cidr" {

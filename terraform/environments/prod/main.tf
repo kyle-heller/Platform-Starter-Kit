@@ -7,7 +7,7 @@ module "aks" {
   kubernetes_version  = "1.29"
 
   vnet_address_space  = "10.2.0.0/16"
-  nodes_subnet_prefix = "10.2.1.0/24"
+  nodes_subnet_prefix = "10.2.0.0/22"
   service_cidr        = "10.3.0.0/16"
   dns_service_ip      = "10.3.0.10"
 
