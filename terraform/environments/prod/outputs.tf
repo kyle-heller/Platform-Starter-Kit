@@ -23,3 +23,13 @@ output "acr_login_server" {
   description = "ACR login server URL"
   value       = module.acr.login_server
 }
+
+output "kasten_storage_account" {
+  description = "Storage account name for K10 backup exports"
+  value       = module.kasten_storage.storage_account_name
+}
+
+output "kasten_blob_endpoint" {
+  description = "Blob endpoint for K10 backup exports"
+  value       = module.kasten_storage.primary_blob_endpoint
+}

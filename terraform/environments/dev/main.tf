@@ -45,3 +45,21 @@ module "acr" {
     ManagedBy   = "terraform"
   }
 }
+
+# Kasten K10 needs ~2 cores + 2GB RAM, doesn't fit on B2s dev nodes.
+# Uncomment if running dev on larger VMs (D2s_v3+).
+# module "kasten_storage" {
+#   source = "../../modules/kasten-storage"
+#
+#   storage_account_name = "platformdevk10bak"
+#   resource_group_name  = module.aks.resource_group_name
+#   location             = var.location
+#   replication_type     = "LRS"
+#   kubelet_identity_id  = module.aks.kubelet_identity
+#
+#   tags = {
+#     Environment = "dev"
+#     Project     = "platform-starter-kit"
+#     ManagedBy   = "terraform"
+#   }
+# }

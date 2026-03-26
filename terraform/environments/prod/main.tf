@@ -52,3 +52,19 @@ module "acr" {
     ManagedBy   = "terraform"
   }
 }
+
+module "kasten_storage" {
+  source = "../../modules/kasten-storage"
+
+  storage_account_name = "platformprodk10bak"
+  resource_group_name  = module.aks.resource_group_name
+  location             = var.location
+  replication_type     = "GRS" # cross-region durability for backup exports
+  kubelet_identity_id  = module.aks.kubelet_identity
+
+  tags = {
+    Environment = "prod"
+    Project     = "platform-starter-kit"
+    ManagedBy   = "terraform"
+  }
+}
