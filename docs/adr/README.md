@@ -15,6 +15,7 @@ Decisions for the platform, roughly in order of when they came up.
 | [009](009-gateway-api.md) | Gateway API for Traffic Routing | Accepted |
 | [010](010-gatekeeper.md) | OPA Gatekeeper for Policy Enforcement | Accepted |
 | [011](011-gitops-argocd.md) | GitOps with ArgoCD | Accepted |
+| [012](012-kasten-backup.md) | Kasten K10 for Kubernetes Backup | Accepted |
 
 ## TODO
 
