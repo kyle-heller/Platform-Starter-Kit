@@ -1,0 +1,30 @@
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Policy
+metadata:
+  name: daily-backup
+  namespace: kasten-io
+spec:
+  comment: "daily backups, 7/4/3 retention, export to blob"
+  frequency: "@daily"
+  retention:
+    daily: 7
+    weekly: 4
+    monthly: 3
+  actions:
+    - action: backup
+      backupParameters:
+        filters: {}
+    - action: export
+      exportParameters:
+        frequency: "@daily"
+        profile:
+          name: azure-blob-export
+          namespace: kasten-io
+        exportData:
+          enabled: true
+  selector:
+    matchExpressions:
+      - key: k10.kasten.io/backup
+        operator: In
+        values:
+          - enabled

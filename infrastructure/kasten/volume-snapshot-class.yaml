@@ -1,0 +1,12 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: azure-disk-snapclass
+  annotations:
+    k10.kasten.io/is-snapshot-class: "true"
+  labels:
+    app.kubernetes.io/name: kasten
+driver: disk.csi.azure.com
+deletionPolicy: Retain
+parameters:
+  incremental: "true"
