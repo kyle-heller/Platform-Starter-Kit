@@ -1,0 +1,22 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequireBackupLabel
+metadata:
+  name: require-backup-label
+spec:
+  enforcementAction: dryrun
+  match:
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["StatefulSet"]
+    excludedNamespaces:
+      - kube-system
+      - gatekeeper-system
+      - cert-manager
+      - ingress-nginx
+      - argocd
+      - kasten-io
+  parameters:
+    labelKey: k10.kasten.io/backup
+    allowedValues:
+      - "enabled"
+      - "opt-out"

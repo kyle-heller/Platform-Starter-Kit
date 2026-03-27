@@ -1,0 +1,51 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequirebackuplabel
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequireBackupLabel
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            labelKey:
+              type: string
+              description: "Label key to require"
+            allowedValues:
+              type: array
+              items:
+                type: string
+              description: "Allowed values for the label"
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequirebackuplabel
+
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "StatefulSet"
+          not input.review.object.metadata.labels[input.parameters.labelKey]
+          msg := sprintf("StatefulSet <%v> must have label '%v' set to one of %v", [
+            input.review.object.metadata.name,
+            input.parameters.labelKey,
+            input.parameters.allowedValues,
+          ])
+        }
+
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "StatefulSet"
+          value := input.review.object.metadata.labels[input.parameters.labelKey]
+          not value_allowed(value)
+          msg := sprintf("StatefulSet <%v> has label '%v: %v' - must be one of %v", [
+            input.review.object.metadata.name,
+            input.parameters.labelKey,
+            value,
+            input.parameters.allowedValues,
+          ])
+        }
+
+        value_allowed(value) {
+          input.parameters.allowedValues[_] == value
+        }
