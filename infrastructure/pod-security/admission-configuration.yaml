@@ -20,3 +20,4 @@ plugins:
           - cert-manager
           - ingress-nginx
           - gateway-system
+          - kasten-io

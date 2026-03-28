@@ -17,6 +17,7 @@ spec:
       - cert-manager
       - ingress-nginx
       - argocd
+      - kasten-io
   parameters:
     labels:
       - key: team

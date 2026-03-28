@@ -14,11 +14,13 @@ spec:
       - cert-manager
       - ingress-nginx
       - argocd
+      - kasten-io
   parameters:
     repos:
       - "docker.io/library/"
       - "mcr.microsoft.com/"
       - "ghcr.io/"
       - "registry.k8s.io/"
+      - "gcr.io/kasten-images/"
       - "platformdevacr.azurecr.io/"
       - "platformprodacr.azurecr.io/"
