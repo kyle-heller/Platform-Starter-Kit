@@ -107,3 +107,20 @@ spec:
       ports:
         - protocol: TCP
           port: 443
+
+---
+# Allow Kasten K10 to reach into team namespaces for backup discovery and snapshots
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kasten-backup
+  namespace: team-alpha
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kasten-io

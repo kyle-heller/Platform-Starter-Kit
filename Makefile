@@ -1,4 +1,4 @@
-.PHONY: help init plan apply destroy lint validate clean gateway-install gatekeeper-install argocd-install
+.PHONY: help init plan apply destroy lint validate clean gateway-install gatekeeper-install argocd-install kasten-install
 
 # Default environment
 ENV ?= dev
@@ -66,6 +66,16 @@ argocd-install: ## Install ArgoCD and apply Application manifests
 		--set server.service.type=LoadBalancer
 	kubectl rollout status deployment/argocd-server -n argocd
 	kubectl apply -f infrastructure/argocd/applications/
+
+kasten-install: ## Install Kasten K10 and apply backup manifests
+	kubectl apply -f infrastructure/kasten/namespace.yaml
+	helm repo add kasten https://charts.kasten.io/
+	helm install k10 kasten/k10 \
+		--namespace kasten-io \
+		--set auth.tokenAuth.enabled=true
+	kubectl rollout status deployment/gateway -n kasten-io --timeout=300s
+	kubectl apply -f infrastructure/kasten/volume-snapshot-class.yaml
+	kubectl apply -f infrastructure/kasten/backup-policy.yaml
 
 gatekeeper-install: ## Install OPA Gatekeeper and apply constraints
 	helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
