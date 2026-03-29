@@ -44,3 +44,4 @@ kubectl apply -f infrastructure/gatekeeper/constraints/
 | block-latest-tag | K8sBlockLatestTag | Block `:latest` or untagged images - forces pinned versions |
 | require-seccomp | K8sRequireSeccomp | Require a seccomp profile (RuntimeDefault or Localhost) |
 | block-host-path | K8sBlockHostPath | Block hostPath volume mounts - prevents container escape |
+| require-backup-label | K8sRequireBackupLabel | Require a backup label on StatefulSets (`enabled` or `opt-out`) |

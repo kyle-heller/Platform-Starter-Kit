@@ -82,6 +82,7 @@ infrastructure/
   pod-security/                # PSS admission config (restricted profile)
   gatekeeper/                  # OPA policy constraints
   argocd/                      # ArgoCD install + Application manifests
+  kasten/                      # Kasten K10 backup (namespace, policies, snapclass)
 scripts/
   onboard-team.sh              # Automates namespace + RBAC + quota setup
 docs/
@@ -100,6 +101,7 @@ make onboard-team TEAM=alpha   # run onboarding script
 make gateway-install           # install Gateway API + NGINX Gateway Fabric
 make argocd-install            # install ArgoCD + apply Applications
 make gatekeeper-install        # install Gatekeeper + apply constraints
+make kasten-install            # install Kasten K10 + apply backup manifests
 ```
 
 Dev cluster runs about ~$80/month (2x B2s nodes + LB). Run `terraform destroy` when not using it.

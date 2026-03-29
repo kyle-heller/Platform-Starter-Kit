@@ -18,6 +18,7 @@ charts/
 # Kubernetes
 kubeconfig
 *.kubeconfig
+**/license-secret.yaml
 
 # IDE
 .idea/
